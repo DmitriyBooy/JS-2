@@ -1,0 +1,40 @@
+header {
+    display: flex;
+    justify-content: flex-end;
+    margin: 0 20px 20px;
+    padding: 15px 25px;
+    border: 0px;
+    border-radius: 0 0 20px 20px;
+    background-color: rgba(155, 192, 207, 0.274);
+}
+
+.cart-button {
+    padding: 10px 15px;
+    border: 1px solid rgba(129, 129, 129, 0.274);
+    border-radius: 15px;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.goods-list {
+    display: flex;
+    margin: 0 25px;
+    justify-content: space-between;
+}
+
+.goods-item {
+    padding: 10px 25px;
+    border-radius: 15px;
+    background-color: rgba(129, 129, 129, 0.274);
+}
+
+.title-goods-item {
+    font-size: 50px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    margin-bottom: 25px;
+}
+
+.price-goods-item {
+    font-size: 25px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
