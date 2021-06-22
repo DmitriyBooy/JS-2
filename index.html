@@ -13,15 +13,17 @@
         <header>
             <search :goods="goods"></search>
             <button @click="showCart"></button>
-            <cart-item :openedcart="isVisibleCart" :cart="cart"></cart>
+            <div class="cart">
+                <cart-item :openedcart="isVisibleCart" :cart="cart"></cart>
+            </div>
         </header>
         <main>
             <goods-list :cart="cart" :goods="goods"></goods-list>
-            
-          </main>
+        </main>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
-    <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/script.js"></script>
 </body>
 
 </html>

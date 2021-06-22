@@ -17,31 +17,33 @@ Vue.component('goods-item', {
       </div>
     `,
     methods: {
-        addItem(good){
-            let index = this.cart.findIndex(x => x.product_name === good.product_name);
-            if(index != -1){
-                this.cart[index].amount++;
-                console.log(this.cart);
-            } else {
-                this.cart.push({
-                 product_name: good.product_name,
-                 price: good.price,
-                 amount: 1,
-                 id_product: good.id_product,   
-                });
-            }
-        },
+        async addItem(good){
+            let cart = await axios.post('/addtocart', {
+                product_name: good.product_name,
+                price: good.price,
+                amount: 1,
+                id_product: good.id_product,   
+            });
+        }
     }
 });
 
 Vue.component('cart-item', {
     props:['cart','openedcart'],
+    methods: {
+        rmcartitem(good) {
+            axios.post('/rmcartitem', {
+            product_name: good.product_name
+        });
+    }
+    },
     template: `
     <div v-if="openedcart" class="cart">
         <div v-for="good in cart" :key="good.key" class="cart-item">
             <h3>{{ good.product_name }}</h3>
             <p>Цена:{{ good.price }}</p>
             <p>кол-во:{{good.amount}}</p>
+            <button @click="rmcartitem(good)" />
         </div>
     </div>
     `
@@ -83,13 +85,8 @@ Vue.component ('search', {
 const app = new Vue({
     el: '#app',
     data: {
-        url: 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses/catalogData.json',
-        goods: [{
-            product_name: 'вафля',
-            price: 555,
-            id_product: 333,
-            amount: 1,
-            }],
+        url: '/database/catalog.json',
+        goods: [],
         errors: [],
         cart: [],
         isVisibleCart: false,
@@ -101,9 +98,8 @@ const app = new Vue({
     methods: {
         async makeGetRequest() {
             try {
-                const response = await fetch(this.url);
-                const result = await response.json();
-                this.goods = this.goods.concat(result);
+                const result = await axios.get(this.url);
+                this.goods = this.goods.concat(result.data);
                 if(this.goods.length > 0) {
                     this.isVisibleList = true;
                 }
@@ -111,13 +107,15 @@ const app = new Vue({
                 this.errors.push(error);
             }
         },
-        
-        
-
-        showCart(){
+        async syncCart() {
+            let cart = await axios.get('/getcart');
+            this.cart = cart.data;
+        },
+        async showCart(){
             this.isVisibleCart = !this.isVisibleCart
-        }
-
+            if(this.isVisibleCart) {
+                this.syncCart();
+            }
+        },
     },
-
 });
